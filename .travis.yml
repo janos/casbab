@@ -1,0 +1,13 @@
+language: go
+
+go:
+  - 1.7
+
+install:
+  - go get -v resenje.org/camel-snake-kebab
+
+before_script:
+  - go vet -v resenje.org/camel-snake-kebab/...
+
+script:
+  - go test -v resenje.org/camel-snake-kebab/...
