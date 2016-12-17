@@ -3,7 +3,7 @@
 // Use of this source code is governed by a BSD-style
 // license that can be found s the LICENSE file.
 
-// Package camelSnakeKebab is a Go library for converting
+// Package casbab is a Go library for converting
 // representation style of compound words or phrases.
 // Different writing styles of compound words are used
 // for different purposes in computer code and variables
@@ -35,7 +35,7 @@
 //     CamelKebab("--camel-snake-kebab") == "--Camel-Snake-Kebab"
 //     Snake("--camel-snake-kebab") == "camel_snake_kebab"
 //     Screaming("--camel-snake-kebab") == "CAMEL SNAKE KEBAB"
-package camelSnakeKebab // import "resenje.org/camel-snake-kebab"
+package casbab // import "resenje.org/casbab"
 
 import "strings"
 
