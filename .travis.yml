@@ -4,10 +4,10 @@ go:
   - 1.7
 
 install:
-  - go get -v resenje.org/camel-snake-kebab
+  - go get -v resenje.org/casbab
 
 before_script:
-  - go vet -v resenje.org/camel-snake-kebab/...
+  - go vet -v resenje.org/casbab/...
 
 script:
-  - go test -v resenje.org/camel-snake-kebab/...
+  - go test -v resenje.org/casbab/...
