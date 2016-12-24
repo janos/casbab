@@ -8,7 +8,7 @@ CLI tool and a Go library for converting representation style of compound words 
 ## Installation
 
 ```sh
-go get resenje.org/casbab/cli/casbab
+go get resenje.org/casbab/cmd/casbab
 ```
 
 ## Example usage
