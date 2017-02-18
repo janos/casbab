@@ -15,7 +15,7 @@
 //
 // Examples:
 //     Kebab("camel_snake_kebab") == "camel-snake-kebab"
-//     ScreamingSnake("camel_snake_kebab") == "__CAMEL_SNAKE_KEBAB__"
+//     ScreamingSnake("camel_snake_kebab") == "CAMEL_SNAKE_KEBAB"
 //     Camel("camel_snake_kebab") == "camelSnakeKebab"
 //     Pascal("camel_snake_kebab") == "CamelSnakeKebab"
 //     Snake("camelSNAKEKebab") == "camel_snake_kebab"
