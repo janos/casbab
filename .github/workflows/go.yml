@@ -41,7 +41,7 @@ jobs:
       run: |
         go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
         golangci-lint run
-      working-directory: ~
+      working-directory: ${{ runner.temp }}
 
     - name: Vet
       run: go vet -v ./...
