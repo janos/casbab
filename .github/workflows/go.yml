@@ -37,11 +37,12 @@ jobs:
     #       ${{ runner.OS }}-build-
     #       ${{ runner.OS }}-
 
-    - name: GolangCI-Lint
-      run: |
-        go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
-        golangci-lint run
+    - name: Set up GolangCI-Lint
+      run: go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
       working-directory: ${{ runner.temp }}
+
+    - name: GolangCI-Lint
+      run: golangci-lint run
 
     - name: Vet
       run: go vet -v ./...
