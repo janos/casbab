@@ -1,15 +1,10 @@
 name: Go
-on: |
-  push
-  pull_request
+on: [push, pull_request]
 jobs:
 
   build:
     name: Build
-    runs-on: |
-      ubuntu-latest
-      macos-latest
-      windows-latest
+    runs-on: [ubuntu-latest, macos-latest, windows-latest]
     steps:
 
     - name: Set up Go
@@ -34,14 +29,14 @@ jobs:
 
     - name: GolangCI-Lint
       uses: actions-contrib/golangci-lint@v0.1.0
-    
+
     - name: Vet
       run: go vet -v ./...
-    
+
     - name: Build
       env:
         CGO_ENABLED: 0
       run: go build -ldflags "-s -w" ./...
-    
+
     - name: Test
       run: go test -v -race ./...
