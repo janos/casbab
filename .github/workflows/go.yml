@@ -39,7 +39,7 @@ jobs:
 
     - name: Set up GolangCI-Lint
       run: go get -u github.com/golangci/golangci-lint/cmd/golangci-lint
-      working-directory: ${{ runner.temp }}
+      working-directory: ~
 
     - name: GolangCI-Lint
       run: golangci-lint run
