@@ -40,7 +40,7 @@ jobs:
     #       ${{ runner.OS }}-
 
     - name: GolangCI-Lint
-      uses: matoous/golangci-lint-action@v1
+      uses: matoous/golangci-lint-action@v1.1.0
 
     - name: Vet
       run: go vet -v ./...
