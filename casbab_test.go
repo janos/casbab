@@ -178,6 +178,26 @@ var (
 				"Screaming":      "",
 			},
 		},
+		{
+			In: []string{
+				"Ово је Brave NewСвет",
+				" Ово је Brave NewСвет",
+				" Ово је Brave NewСвет    ",
+			},
+			Out: map[string]string{
+				"Camel":          "овоЈеBraveNewСвет",
+				"Pascal":         "ОвоЈеBraveNewСвет",
+				"Snake":          "ово_је_brave_new_свет",
+				"CamelSnake":     "Ово_Је_Brave_New_Свет",
+				"ScreamingSnake": "ОВО_ЈЕ_BRAVE_NEW_СВЕТ",
+				"Kebab":          "ово-је-brave-new-свет",
+				"CamelKebab":     "Ово-Је-Brave-New-Свет",
+				"ScreamingKebab": "ОВО-ЈЕ-BRAVE-NEW-СВЕТ",
+				"Lower":          "ово је brave new свет",
+				"Title":          "Ово Је Brave New Свет",
+				"Screaming":      "ОВО ЈЕ BRAVE NEW СВЕТ",
+			},
+		},
 	}
 	converters = map[string]func(string) string{
 		"Camel":          Camel,
