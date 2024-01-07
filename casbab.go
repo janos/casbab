@@ -211,11 +211,10 @@ func scream(s [][]rune) [][]rune {
 
 func camel(s [][]rune, start int) [][]rune {
 	for i := start; i < len(s); i++ {
-		r := []rune(s[i])
-		if len(r) == 0 {
+		if len(s[i]) == 0 {
 			continue
 		}
-		s[i][0] = unicode.ToUpper(r[0])
+		s[i][0] = unicode.ToUpper(s[i][0])
 	}
 	return s
 }
@@ -260,9 +259,14 @@ func join(elems [][]rune) string {
 	}
 
 	var b strings.Builder
-	b.WriteString(string(elems[0]))
+
+	for _, e := range elems[0] {
+		b.WriteRune(e)
+	}
 	for _, s := range elems[1:] {
-		b.WriteString(string(s))
+		for _, e := range s {
+			b.WriteRune(e)
+		}
 	}
 	return b.String()
 }
@@ -276,15 +280,20 @@ func joinSep(elems [][]rune, sep rune) string {
 	}
 
 	var b strings.Builder
-	b.WriteString(string(elems[0]))
+
+	for _, e := range elems[0] {
+		b.WriteRune(e)
+	}
 	for _, s := range elems[1:] {
 		b.WriteRune(sep)
-		b.WriteString(string(s))
+		for _, e := range s {
+			b.WriteRune(e)
+		}
 	}
 	return b.String()
 }
 
-func joinWrap(elems [][]rune, sep rune, prefixSize, suffixSize int) string {
+func joinWrap(elems [][]rune, sep rune, head, tail int) string {
 	switch len(elems) {
 	case 0:
 		return ""
@@ -294,17 +303,21 @@ func joinWrap(elems [][]rune, sep rune, prefixSize, suffixSize int) string {
 
 	var b strings.Builder
 
-	for i := 0; i < prefixSize; i++ {
+	for i := 0; i < head; i++ {
 		b.WriteRune(sep)
 	}
 
-	b.WriteString(string(elems[0]))
+	for _, e := range elems[0] {
+		b.WriteRune(e)
+	}
 	for _, s := range elems[1:] {
 		b.WriteRune(sep)
-		b.WriteString(string(s))
+		for _, e := range s {
+			b.WriteRune(e)
+		}
 	}
 
-	for i := 0; i < suffixSize; i++ {
+	for i := 0; i < tail; i++ {
 		b.WriteRune(sep)
 	}
 	return b.String()

@@ -35,26 +35,26 @@ goos: darwin
 goarch: arm64
 pkg: resenje.org/casbab
 BenchmarkCamel
-BenchmarkCamel-10               1826664        642.2 ns/op      640 B/op        9 allocs/op
+BenchmarkCamel-10               2106188        569.1 ns/op      640 B/op        9 allocs/op
 BenchmarkPascal
-BenchmarkPascal-10              1830391        638.6 ns/op      640 B/op        9 allocs/op
+BenchmarkPascal-10              2123118        567.5 ns/op      640 B/op        9 allocs/op
 BenchmarkSnake
-BenchmarkSnake-10               1868508        653.8 ns/op      640 B/op        9 allocs/op
+BenchmarkSnake-10               2091612        567.1 ns/op      640 B/op        9 allocs/op
 BenchmarkCamelSnake
-BenchmarkCamelSnake-10          1782997        685.2 ns/op      640 B/op        9 allocs/op
+BenchmarkCamelSnake-10          2032400        586.8 ns/op      640 B/op        9 allocs/op
 BenchmarkScreamingSnake
-BenchmarkScreamingSnake-10      1583528        740.1 ns/op      640 B/op        9 allocs/op
+BenchmarkScreamingSnake-10      1753968        637.1 ns/op      640 B/op        9 allocs/op
 BenchmarkKebab
-BenchmarkKebab-10               1859630        640.6 ns/op      640 B/op        9 allocs/op
+BenchmarkKebab-10               2113995        571.8 ns/op      640 B/op        9 allocs/op
 BenchmarkCamelKebab
-BenchmarkCamelKebab-10          1825042        658.5 ns/op      640 B/op        9 allocs/op
+BenchmarkCamelKebab-10          2047392        586.0 ns/op      640 B/op        9 allocs/op
 BenchmarkScreamingKebab
-BenchmarkScreamingKebab-10      1685986        713.3 ns/op      640 B/op        9 allocs/op
+BenchmarkScreamingKebab-10      1863102        635.0 ns/op      640 B/op        9 allocs/op
 BenchmarkLower
-BenchmarkLower-10               1862577        640.1 ns/op      640 B/op        9 allocs/op
+BenchmarkLower-10               2107701        566.4 ns/op      640 B/op        9 allocs/op
 BenchmarkTitle
-BenchmarkTitle-10               1818093        657.6 ns/op      640 B/op        9 allocs/op
+BenchmarkTitle-10               2056044        584.0 ns/op      640 B/op        9 allocs/op
 BenchmarkScreaming
-BenchmarkScreaming-10           1647198        725.4 ns/op      640 B/op        9 allocs/op
+BenchmarkScreaming-10           1887225        644.4 ns/op      640 B/op        9 allocs/op
 PASS
 ```
