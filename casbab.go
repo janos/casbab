@@ -51,8 +51,7 @@ import (
 //
 // Example: "camelSnakeKebab".
 func Camel(s string) string {
-	r := []rune(s)
-	return join(camel(words(r), 1))
+	return casbabTitle(s, false)
 }
 
 // Pascal case is a variant of Camel case writing where
@@ -60,8 +59,7 @@ func Camel(s string) string {
 //
 // Example: "CamelSnakeKebab".
 func Pascal(s string) string {
-	r := []rune(s)
-	return join(camel(words(r), 0))
+	return casbabTitle(s, true)
 }
 
 // Snake case is the practice of writing compound words
@@ -71,9 +69,7 @@ func Pascal(s string) string {
 //
 // Example: "camel_snake_kebab".
 func Snake(s string) string {
-	r := []rune(s)
-	head, tail := headTailCount(r, '_')
-	return joinWrap(words(r), '_', head, tail)
+	return casbabWrap(s, '_', self)
 }
 
 // CamelSnake case is a variant of Camel case with
@@ -81,9 +77,7 @@ func Snake(s string) string {
 //
 // Example: "Camel_Snake_Kebab".
 func CamelSnake(s string) string {
-	r := []rune(s)
-	head, tail := headTailCount(r, '_')
-	return joinWrap(camel(words(r), 0), '_', head, tail)
+	return casbabWrap(s, '_', title)
 }
 
 // ScreamingSnake case is a variant of Camel case with
@@ -91,9 +85,7 @@ func CamelSnake(s string) string {
 //
 // Example: "CAMEL_SNAKE_KEBAB".
 func ScreamingSnake(s string) string {
-	r := []rune(s)
-	head, tail := headTailCount(r, '_')
-	return joinWrap(scream(words(r)), '_', head, tail)
+	return casbabWrap(s, '_', upper)
 }
 
 // Kebab case is the practice of writing compound words
@@ -103,9 +95,7 @@ func ScreamingSnake(s string) string {
 //
 // Example: "camel-snake-kebab".
 func Kebab(s string) string {
-	r := []rune(s)
-	head, tail := headTailCount(r, '-')
-	return joinWrap(words(r), '-', head, tail)
+	return casbabWrap(s, '-', self)
 }
 
 // CamelKebab case is a variant of Kebab case with
@@ -113,9 +103,7 @@ func Kebab(s string) string {
 //
 // Example: "Camel-Snake-Kebab".
 func CamelKebab(s string) string {
-	r := []rune(s)
-	head, tail := headTailCount(r, '-')
-	return joinWrap(camel(words(r), 0), '-', head, tail)
+	return casbabWrap(s, '-', title)
 }
 
 // ScreamingKebab case is a variant of Kebab case with
@@ -123,9 +111,7 @@ func CamelKebab(s string) string {
 //
 // Example: "CAMEL-SNAKE-KEBAB".
 func ScreamingKebab(s string) string {
-	r := []rune(s)
-	head, tail := headTailCount(r, '-')
-	return joinWrap(scream(words(r)), '-', head, tail)
+	return casbabWrap(s, '-', upper)
 }
 
 // Lower is returning detected words, not in a compound
@@ -134,8 +120,7 @@ func ScreamingKebab(s string) string {
 //
 // Example: "camel snake kebab".
 func Lower(s string) string {
-	r := []rune(s)
-	return joinSep(words(r), ' ')
+	return casbabSeparate(s, ' ')
 }
 
 // Title is returning detected words, not in a compound
@@ -145,8 +130,7 @@ func Lower(s string) string {
 //
 // Example: "Camel Snake Kebab".
 func Title(s string) string {
-	r := []rune(s)
-	return joinSep(camel(words(r), 0), ' ')
+	return casbabTransform(s, ' ', title)
 }
 
 // Screaming is returning detected words, not in a compound
@@ -155,20 +139,143 @@ func Title(s string) string {
 //
 // Example: "CAMEL SNAKE KEBAB".
 func Screaming(s string) string {
-	r := []rune(s)
-	return joinSep(scream(words(r)), ' ')
+	return casbabTransform(s, ' ', upper)
 }
 
-func words(r []rune) (w [][]rune) {
+func casbabTitle(s string, capitalizeFirstWord bool) string {
+	runes := []rune(s)
+
+	var b strings.Builder
+	b.Grow(len(s))
+
+	w, runes := firstWord(runes)
+	if capitalizeFirstWord {
+		w = title(w)
+	}
+	for _, e := range w {
+		b.WriteRune(e)
+	}
+
+	for {
+		w, rest := firstWord(runes)
+		if w == nil {
+			break
+		}
+		for _, e := range title(w) {
+			b.WriteRune(e)
+		}
+		if rest == nil {
+			break
+		}
+		runes = rest
+	}
+	return b.String()
+}
+
+func casbabSeparate(s string, separator rune) string {
+	runes := []rune(s)
+
+	var b strings.Builder
+	b.Grow(len(s))
+
+	w, runes := firstWord(runes)
+	for _, e := range w {
+		b.WriteRune(e)
+	}
+
+	for {
+		w, rest := firstWord(runes)
+		if w == nil {
+			break
+		}
+		b.WriteRune(separator)
+		for _, e := range w {
+			b.WriteRune(e)
+		}
+		if rest == nil {
+			break
+		}
+		runes = rest
+	}
+	return b.String()
+}
+
+func casbabTransform(s string, separator rune, transformWord func([]rune) []rune) string {
+	runes := []rune(s)
+
+	var b strings.Builder
+	b.Grow(len(s))
+
+	w, runes := firstWord(runes)
+	for _, e := range transformWord(w) {
+		b.WriteRune(e)
+	}
+
+	for {
+		w, rest := firstWord(runes)
+		if w == nil {
+			break
+		}
+		b.WriteRune(separator)
+		for _, e := range transformWord(w) {
+			b.WriteRune(e)
+		}
+		if rest == nil {
+			break
+		}
+		runes = rest
+	}
+	return b.String()
+}
+
+func casbabWrap(s string, separator rune, transformWord func([]rune) []rune) string {
+	runes := []rune(s)
+
+	head, tail := headTailCount(runes, separator)
+
+	var b strings.Builder
+	b.Grow(len(s) + head + tail)
+
+	for i := 0; i < head; i++ {
+		b.WriteRune(separator)
+	}
+
+	w, runes := firstWord(runes)
+	for _, e := range transformWord(w) {
+		b.WriteRune(e)
+	}
+
+	for {
+		w, rest := firstWord(runes)
+		if w == nil {
+			break
+		}
+		b.WriteRune(separator)
+		for _, e := range transformWord(w) {
+			b.WriteRune(e)
+		}
+		if rest == nil {
+			break
+		}
+		runes = rest
+	}
+
+	for i := 0; i < tail; i++ {
+		b.WriteRune(separator)
+	}
+
+	return b.String()
+}
+
+func firstWord(r []rune) (word, rest []rune) {
 	start := 0
 	l := len(r)
 	var prevLower, prevUpper bool
 Loop:
 	for i, c := range r {
-		switch c {
-		case '-', '_', ' ':
+		if c == '-' || c == '_' || c == ' ' {
 			if start != i {
-				w = append(w, toLower(r[start:i]))
+				return lower(r[start:i]), r[i+1:]
 			}
 			start = i + 1
 			prevLower = false
@@ -180,7 +287,7 @@ Loop:
 			prevUpper = true
 			if prevLower {
 				if i != start {
-					w = append(w, toLower(r[start:i]))
+					return lower(r[start:i]), r[i:]
 				}
 				start = i
 				prevLower = false
@@ -189,34 +296,17 @@ Loop:
 			prevLower = true
 			if prevUpper {
 				if i-1 != start {
-					w = append(w, toLower(r[start:i-1]))
+					return lower(r[start : i-1]), r[i-1:]
 				}
 				start = i - 1
 				prevUpper = false
 			}
 		}
 		if i == l-1 {
-			w = append(w, toLower(r[start:]))
+			return lower(r[start:]), nil
 		}
 	}
-	return
-}
-
-func scream(s [][]rune) [][]rune {
-	for i := 0; i < len(s); i++ {
-		s[i] = toUpper(s[i])
-	}
-	return s
-}
-
-func camel(s [][]rune, start int) [][]rune {
-	for i := start; i < len(s); i++ {
-		if len(s[i]) == 0 {
-			continue
-		}
-		s[i][0] = unicode.ToUpper(s[i][0])
-	}
-	return s
+	return nil, nil
 }
 
 func headTailCount(r []rune, sub rune) (head, tail int) {
@@ -236,89 +326,27 @@ func headTailCount(r []rune, sub rune) (head, tail int) {
 	return
 }
 
-func toUpper(r []rune) []rune {
+func upper(r []rune) []rune {
 	for i, e := range r {
 		r[i] = unicode.ToUpper(e)
 	}
 	return r
 }
 
-func toLower(r []rune) []rune {
+func lower(r []rune) []rune {
 	for i, e := range r {
 		r[i] = unicode.ToLower(e)
 	}
 	return r
 }
 
-func join(elems [][]rune) string {
-	switch len(elems) {
-	case 0:
-		return ""
-	case 1:
-		return string(elems[0])
+func title(r []rune) []rune {
+	if len(r) > 0 {
+		r[0] = unicode.ToUpper(r[0])
 	}
-
-	var b strings.Builder
-
-	for _, e := range elems[0] {
-		b.WriteRune(e)
-	}
-	for _, s := range elems[1:] {
-		for _, e := range s {
-			b.WriteRune(e)
-		}
-	}
-	return b.String()
+	return r
 }
 
-func joinSep(elems [][]rune, sep rune) string {
-	switch len(elems) {
-	case 0:
-		return ""
-	case 1:
-		return string(elems[0])
-	}
-
-	var b strings.Builder
-
-	for _, e := range elems[0] {
-		b.WriteRune(e)
-	}
-	for _, s := range elems[1:] {
-		b.WriteRune(sep)
-		for _, e := range s {
-			b.WriteRune(e)
-		}
-	}
-	return b.String()
-}
-
-func joinWrap(elems [][]rune, sep rune, head, tail int) string {
-	switch len(elems) {
-	case 0:
-		return ""
-	case 1:
-		return string(elems[0])
-	}
-
-	var b strings.Builder
-
-	for i := 0; i < head; i++ {
-		b.WriteRune(sep)
-	}
-
-	for _, e := range elems[0] {
-		b.WriteRune(e)
-	}
-	for _, s := range elems[1:] {
-		b.WriteRune(sep)
-		for _, e := range s {
-			b.WriteRune(e)
-		}
-	}
-
-	for i := 0; i < tail; i++ {
-		b.WriteRune(sep)
-	}
-	return b.String()
+func self(r []rune) []rune {
+	return r
 }
